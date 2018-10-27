@@ -207,6 +207,8 @@ public class SharedConfig {
     public static LiteMode liteMode;
     public static Set<String> usingFilePaths = Collections.newSetFromMap(new ConcurrentHashMap<>());
 
+    public static boolean hideTitleDialog = false;
+
     private static final int[] LOW_SOC = {
             -1775228513, // EXYNOS 850
             802464304,  // EXYNOS 7872
@@ -536,6 +538,8 @@ public class SharedConfig {
 
             preferences = ApplicationLoader.applicationContext.getSharedPreferences("Notifications", Activity.MODE_PRIVATE);
             showNotificationsForAllAccounts = preferences.getBoolean("AllAccounts", true);
+
+            hideTitleDialog = preferences.getBoolean("hideTitle", false);
 
             configLoaded = true;
 
