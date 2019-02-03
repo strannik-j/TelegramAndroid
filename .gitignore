@@ -5,6 +5,7 @@ build/
 obj/
 *.iml
 local.properties
+TMessagesProj/.cxx/
 API_KEYS
 *.hprof
 TMessagesProj/.externalNativeBuild/
