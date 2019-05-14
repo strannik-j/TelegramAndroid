@@ -5619,4 +5619,6 @@
     <string name="PremiumPreviewReactions2">Infinite Reactions</string>
     <string name="PremiumPreviewEmojiStatus">Emoji Status</string>
     <string name="PremiumPreviewEmojiStatusDescription">Add any of thousands emojis next to your name to display current activity.</string>
+    <!--FORK CLIENT-->
+    <string name="BottomDialogs">Tap here to start a new chat.</string>
 </resources>
