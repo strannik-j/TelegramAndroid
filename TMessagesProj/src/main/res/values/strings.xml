@@ -7005,4 +7005,6 @@
     <string name="UnarchiveStories">Unhide Stories</string>
     <string name="GroupTooLarge">Group Too Large</string>
     <string name="GroupTooLargeMessage">You can select groups that are up to 200 members.</string>
+    <!--FORK CLIENT-->
+    <string name="BottomDialogs">Tap here to start a new chat.</string>
 </resources>
