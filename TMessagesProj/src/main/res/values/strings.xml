@@ -6596,4 +6596,6 @@
     <string name="ChatThemeDaySwitchTooltip">Tap to view this theme in the day mode.</string>
     <string name="ChatThemeNightSwitchTooltip">Tap to view this theme in the night mode.</string>
     <string name="BotWebAppInstantViewOpen">Open App</string>
+    <!--FORK CLIENT-->
+    <string name="BottomDialogs">Tap here to start a new chat.</string>
 </resources>
