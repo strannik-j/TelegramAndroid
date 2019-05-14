@@ -6262,4 +6262,6 @@
     <string name="AccDescrDocumentType">, %s file</string>
     <string name="AccDescrArchivedChatsShown">Archived chats shown</string>
     <string name="AccDescrArchivedChatsHidden">Archived chats hidden</string>
+    <!--FORK CLIENT-->
+    <string name="BottomDialogs">Tap here to start a new chat.</string>
 </resources>
