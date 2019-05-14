@@ -6371,4 +6371,6 @@
     <string name="LoginEmailResetPremiumRequiredTitle">Telegram Premium Required</string>
     <string name="LoginEmailResetPremiumRequiredMessage">Due to the high cost of SMS in your country, you need a **Telegram Premium** account to immediately reset this email via an SMS code.\n\nYou can ask a friend to gift a Premium subscription for your account **%1$s**</string>
     <string name="LoginEmailResetPleaseWait">Resetting email, please wait...</string>
+    <!--FORK CLIENT-->
+    <string name="BottomDialogs">Tap here to start a new chat.</string>
 </resources>
