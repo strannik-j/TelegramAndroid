@@ -7190,4 +7190,7 @@
     <string name="BotAttachMenuShortcatAddedSide">**%s** shortcut added in side menu.</string>
     <string name="BotAttachMenuShortcatAddedAttach">**%s** shortcut added in attachment menu.</string>
     <string name="TermsOfUse">Terms of Use</string>
+    <string name="AddLocation">ADD LOCATION</string>
+    <!--FORK CLIENT-->
+    <string name="BottomDialogs">Tap here to start a new chat.</string>
 </resources>
