@@ -6046,4 +6046,6 @@
     <string name="LightMode">Lite Mode (Beta)</string>
     <string name="EnableLightMode">Enable lite mode</string>
     <string name="LightModeInfoRow">This mode turns off all visual effects in the app. It is recommended only for those devices that are low on CPU and memory.</string>
+    <!--FORK CLIENT-->
+    <string name="BottomDialogs">Tap here to start a new chat.</string>
 </resources>
