@@ -7028,4 +7028,6 @@
     <string name="StoriesPremiumHint">Posting stories is currently available only to subscribers of **Telegram Premium**.</string>
     <string name="ArchiveStories">Hide Stories</string>
     <string name="UnarchiveStories">Unhide Stories</string>
+    <!--FORK CLIENT-->
+    <string name="BottomDialogs">Tap here to start a new chat.</string>
 </resources>
