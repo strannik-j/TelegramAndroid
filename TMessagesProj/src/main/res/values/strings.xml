@@ -5776,4 +5776,6 @@
     <string name="ChannelCaptionLimitPremiumPromo_few">Make the caption shorter or subscribe to *Telegram Premium* to double the limit to **%1$s** characters.</string>
     <string name="ChannelCaptionLimitPremiumPromo_many">Make the caption shorter or subscribe to *Telegram Premium* to double the limit to **%1$s** characters.</string>
     <string name="ChannelCaptionLimitPremiumPromo_other">Make the caption shorter or subscribe to *Telegram Premium* to double the limit to **%1$s** characters.</string>
+    <!--FORK CLIENT-->
+    <string name="BottomDialogs">Tap here to start a new chat.</string>
 </resources>
