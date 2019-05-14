@@ -7119,4 +7119,6 @@
     <string name="LimitReachedStoriesMonthlyPremium">Sorry, you can’t post more than **%1$d** stories in a month.</string>
     <string name="UsersDeselectAll">Deselect All</string>
     <string name="AddLocation">ADD LOCATION</string>
+    <!--FORK CLIENT-->
+    <string name="BottomDialogs">Tap here to start a new chat.</string>
 </resources>
