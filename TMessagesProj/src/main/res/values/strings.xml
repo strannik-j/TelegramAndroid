@@ -6285,4 +6285,6 @@
     <string name="LitePowerSaverInfo">Automatically switch to low power usage when your devices is in Battery Saving Mode.</string>
     <string name="DynamicPackOrder">Dynamic Pack Order</string>
     <string name="DynamicPackOrderInfo">Automatically place recently used sticker packs at the front of the panel.</string>
+    <!--FORK CLIENT-->
+    <string name="BottomDialogs">Tap here to start a new chat.</string>
 </resources>
