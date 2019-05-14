@@ -5788,4 +5788,6 @@
     <string name="DebugMessageSkeletonsSaturation">Saturation</string>
     <string name="DebugAltNavigation">Alternative navigation</string>
     <string name="DebugGeneral">General</string>
+    <!--FORK CLIENT-->
+    <string name="BottomDialogs">Tap here to start a new chat.</string>
 </resources>
