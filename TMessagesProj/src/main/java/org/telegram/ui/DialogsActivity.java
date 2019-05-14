@@ -4370,6 +4370,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     storyHint.hide();
                 }
 
+
                 final int limit = getUserConfig().isPremium() ?
                     getMessagesController().storyExpiringLimitPremium :
                     getMessagesController().storyExpiringLimitDefault;
