@@ -5628,4 +5628,6 @@
     <string name="MicrophoneForVoiceMessagesScoHint">Using a headset microphone may reduce background noise but will slightly decrease audio quality.</string>
     <string name="ReactionInDialog">%s Reaction</string>
     <string name="SearchReactionsHint">Search reactions</string>
+    <!--FORK CLIENT-->
+    <string name="BottomDialogs">Tap here to start a new chat.</string>
 </resources>
