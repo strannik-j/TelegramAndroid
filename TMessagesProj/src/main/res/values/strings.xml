@@ -7245,4 +7245,6 @@
     <string name="BoostStories_few">**%d**&#160;stories</string>
     <string name="BoostStories_many">**%d**&#160;stories</string>
     <string name="BoostStories_other">**%d**&#160;stories</string>
+    <!--FORK CLIENT-->
+    <string name="BottomDialogs">Tap here to start a new chat.</string>
 </resources>
