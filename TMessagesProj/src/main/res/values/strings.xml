@@ -4811,7 +4811,7 @@
     <string name="UserAcceptedToGroupPushWithGroup">%2$s|%1$s was accepted into the group</string>
     <string name="OpenChannelPost">VIEW POST</string>
     <!--FORK CLIENT-->
-    <string name="AnonymousForward">Anonymous Forward</string>
+    <string name="FastForward">Fast Forward</string>
     <string name="DateForward">Date</string>
     <string name="ShowTitle">Show title</string>
     <string name="HideTitle">Hide title</string>
