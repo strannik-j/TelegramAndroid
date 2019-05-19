@@ -5100,7 +5100,7 @@
     <string name="PasscodeReinstallNotice">If you forget your passcode, you\'ll need to **reinstall** the app. All secret chats will be lost.</string>
     <string name="EditNumberInfo">Do you want to edit your number?\n\n**%1$s**\n\nIf the number above is correct, please wait for the verification code.</string>
     <!--FORK CLIENT-->
-    <string name="AnonymousForward">Anonymous Forward</string>
+    <string name="FastForward">Fast Forward</string>
     <string name="DateForward">Date</string>
     <string name="ShowTitle">Show title</string>
     <string name="HideTitle">Hide title</string>
