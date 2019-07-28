@@ -549,6 +549,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         float centerWidth, centerTop;
         AnimatedTextView.AnimatedTextDrawable right;
         private String lng;
+        private String avatarDate;
 
         public PhotoCountView(Context context) {
             super(context);
@@ -579,8 +580,12 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             right.setOverrideFullWidth(AndroidUtilities.displaySize.x);
         }
 
+        private void setAvatarDate(String value) {
+            avatarDate = value;
+        }
+
         private void setCenterText() {
-            center = new StaticLayout(getOf(), paint, AndroidUtilities.dp(200), Layout.Alignment.ALIGN_CENTER, 1, 0, false);
+            center = new StaticLayout(getOf() + avatarDate, paint, AndroidUtilities.dp(200), Layout.Alignment.ALIGN_CENTER, 1, 0, false);
             if (center.getLineCount() >= 1) {
                 centerWidth = center.getLineWidth(0);
                 centerTop = center.getLineDescent(0);
@@ -1749,6 +1754,24 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     private static Paint progressPaint;
 
     private int transitionIndex;
+
+    private String avatarDate() {
+        // Show date time for avatars.
+        final boolean isIndexInvalid = (switchingToIndex < 0)
+                || (switchingToIndex >= avatarsArr.size());
+        if (!avatarsArr.isEmpty() && !isIndexInvalid) {
+            final long dateLong = (long) avatarsArr.get(switchingToIndex).date * 1000;
+            if (dateLong > 10000) {
+                final java.util.Date date = new java.util.Date(dateLong);
+                return " | " + LocaleController.formatString(
+                        "formatDateAtTime",
+                        R.string.formatDateAtTime,
+                        LocaleController.getInstance().formatterYear.format(date),
+                        LocaleController.getInstance().formatterDay.format(date));
+            }
+        }
+        return "";
+    }
 
     private class BackgroundDrawable extends ColorDrawable {
 
@@ -12121,6 +12144,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     }
                     if (countView != null) {
                         countView.updateShow(openedFromProfile, animated);
+                        countView.setAvatarDate(avatarDate());
                         countView.set((totalImagesCount + totalImagesCountMerge) - (startOffset + switchingToIndex), (totalImagesCount + totalImagesCountMerge));
                     }
                 } else {
@@ -12139,6 +12163,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     }
                     if (countView != null) {
                         countView.updateShow(true, animated);
+                        countView.setAvatarDate(avatarDate());
                         countView.set((totalImagesCount + totalImagesCountMerge - imagesArr.size()) + switchingToIndex + 1, totalImagesCount + totalImagesCountMerge);
                     }
                 }
@@ -12198,6 +12223,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             menuItem.hideSubItem(gallery_menu_save);
             if (countView != null) {
                 countView.updateShow(secureDocuments.size() > 1, true);
+                countView.setAvatarDate(avatarDate());
                 countView.set(switchingToIndex + 1, secureDocuments.size());
             }
             title = null;
@@ -12234,6 +12260,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             }
             if (countView != null) {
                 countView.updateShow(imagesArrLocations.size() > 1, true);
+                countView.setAvatarDate(avatarDate());
                 countView.set(switchingToIndex + 1, imagesArrLocations.size());
             }
             if (customTitle != null) {
@@ -12489,6 +12516,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             bottomLayout.setTag(null);
             if (countView != null) {
                 countView.updateShow(size > 1, true);
+                countView.setAvatarDate(avatarDate());
                 countView.set(switchingToIndex + 1, size);
             }
             if (currentAnimation != null) {
@@ -14148,6 +14176,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         actionBarContainer.setTitle("");
         actionBarContainer.setSubtitle("", false);
         if (countView != null) {
+            countView.setAvatarDate(avatarDate());
             countView.set(0, 0, false);
             countView.updateShow(false, false);
         }
