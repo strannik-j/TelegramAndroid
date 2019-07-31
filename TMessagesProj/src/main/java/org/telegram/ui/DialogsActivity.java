@@ -176,6 +176,8 @@ import org.telegram.ui.Components.SwipeGestureSettingsView;
 import org.telegram.ui.Components.UndoView;
 import org.telegram.ui.Components.ViewPagerFixed;
 
+import org.telegram.ui.ProfileActivity;
+
 import java.io.File;
 import java.util.ArrayList;
 
@@ -279,6 +281,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     private ActionBarMenuSubItem clearItem;
     private ActionBarMenuSubItem readItem;
     private ActionBarMenuSubItem blockItem;
+    private ActionBarMenuSubItem profileInfoItem;
 
     private float additionalFloatingTranslation;
     private float additionalFloatingTranslation2;
@@ -384,6 +387,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     private final static int pin2 = 108;
     private final static int add_to_folder = 109;
     private final static int remove_from_folder = 110;
+    private final static int profileInfo = 111;
 
     private final static int ARCHIVE_ITEM_STATE_PINNED = 0;
     private final static int ARCHIVE_ITEM_STATE_SHOWED = 1;
@@ -3833,6 +3837,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         readItem = otherItem.addSubItem(read, R.drawable.msg_markread, LocaleController.getString("MarkAsRead", R.string.MarkAsRead));
         clearItem = otherItem.addSubItem(clear, R.drawable.msg_clear, LocaleController.getString("ClearHistory", R.string.ClearHistory));
         blockItem = otherItem.addSubItem(block, R.drawable.msg_block, LocaleController.getString("BlockUser", R.string.BlockUser));
+        profileInfoItem = otherItem.addSubItem(profileInfo, R.drawable.msg_message, LocaleController.getString("Info", R.string.Info));
 
         actionModeViews.add(pinItem);
         actionModeViews.add(archive2Item);
@@ -3952,7 +3957,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                         }
                         getUndoView().showWithAction(did, UndoView.ACTION_REMOVED_FROM_FOLDER, neverShow.size(), filter, null, null);
                         hideActionMode(false);
-                    } else if (id == pin || id == read || id == delete || id == clear || id == mute || id == archive || id == block || id == archive2 || id == pin2) {
+                    } else if (id == pin || id == read || id == delete || id == clear || id == mute || id == archive || id == block || id == archive2 || id == pin2 || id == profileInfo) {
                         performSelectedDialogsAction(selectedDialogs, id, true);
                     }
                 }
@@ -5717,6 +5722,11 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                         getNotificationsController().setDialogNotificationsSettings(selectedDialog, NotificationsController.SETTING_MUTE_FOREVER);
                     }
                 }
+            } else if (action == profileInfo) {
+                Bundle args = new Bundle();
+                final boolean isChat = (chat != null);
+                args.putLong(isChat ? "chat_id" : "user_id", isChat ? chat.id : user.id);
+                presentFragment(new ProfileActivity(args));
             }
         }
         if (action == mute && !(count == 1 && canMuteCount == 1)) {
@@ -6104,6 +6114,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             pinItem.setContentDescription(LocaleController.getString("UnpinFromTop", R.string.UnpinFromTop));
             pin2Item.setText(LocaleController.getString("DialogUnpin", R.string.DialogUnpin));
         }
+        profileInfoItem.setVisibility(count > 1 ? View.GONE : View.VISIBLE);
     }
 
     private boolean validateSlowModeDialog(long dialogId) {
