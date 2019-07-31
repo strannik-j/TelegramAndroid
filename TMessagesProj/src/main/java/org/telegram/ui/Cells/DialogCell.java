@@ -3356,9 +3356,17 @@ public class DialogCell extends BaseCell {
             (drawScam == 1 ? Theme.dialogs_scamDrawable : Theme.dialogs_fakeDrawable).draw(canvas);
         }
 
+        // 11 + 12 = 23 = height of item.
+        // We move drawCount up to half its height
+        // and move dialogs_reorderDrawable down
+        // so that everything could fit and would not have to hide the drawCount.
+        final boolean isCount = (drawCount || drawMention) && drawCount2 || countChangeProgress != 1f || drawReactionMention || reactionsMentionsChangeProgress != 1f;
+        final int newTop = countTop - (int)(AndroidUtilities.dp(11) * reorderIconProgress);
+        final int newPinTop = isCount ? (pinTop + (int)(AndroidUtilities.dp(12) * reorderIconProgress)) : pinTop;
+
         if (drawReorder || reorderIconProgress != 0) {
             Theme.dialogs_reorderDrawable.setAlpha((int) (reorderIconProgress * 255));
-            setDrawableBounds(Theme.dialogs_reorderDrawable, pinLeft, pinTop);
+            setDrawableBounds(Theme.dialogs_reorderDrawable, pinLeft, newPinTop);
             Theme.dialogs_reorderDrawable.draw(canvas);
         }
         if (drawError) {
@@ -3367,7 +3375,7 @@ public class DialogCell extends BaseCell {
             canvas.drawRoundRect(rect, 11.5f * AndroidUtilities.density, 11.5f * AndroidUtilities.density, Theme.dialogs_errorPaint);
             setDrawableBounds(Theme.dialogs_errorDrawable, errorLeft + AndroidUtilities.dp(5.5f), errorTop + AndroidUtilities.dp(5));
             Theme.dialogs_errorDrawable.draw(canvas);
-        } else if ((drawCount || drawMention) && drawCount2 || countChangeProgress != 1f || drawReactionMention || reactionsMentionsChangeProgress != 1f) {
+        } else if (isCount) {
             boolean drawCounterMuted;
             if (isTopic) {
                 drawCounterMuted = topicMuted;
@@ -3395,11 +3403,11 @@ public class DialogCell extends BaseCell {
 
                 if (countOldLayout == null || unreadCount == 0) {
                     StaticLayout drawLayout = unreadCount == 0 ? countOldLayout : countLayout;
-                    paint.setAlpha((int) ((1.0f - reorderIconProgress) * fillPaintAlpha));
-                    Theme.dialogs_countTextPaint.setAlpha((int) ((1.0f - reorderIconProgress) * 255));
+                    // paint.setAlpha((int) ((1.0f - reorderIconProgress) * fillPaintAlpha));
+                    // Theme.dialogs_countTextPaint.setAlpha((int) ((1.0f - reorderIconProgress) * 255));
 
                     int x = countLeft - AndroidUtilities.dp(5.5f);
-                    rect.set(x, countTop, x + countWidth + AndroidUtilities.dp(11), countTop + AndroidUtilities.dp(23));
+                    rect.set(x, newTop, x + countWidth + AndroidUtilities.dp(11), newTop + AndroidUtilities.dp(23));
 
                     if (progressFinal != 1f) {
                         if (getIsPinned()) {
@@ -3417,7 +3425,7 @@ public class DialogCell extends BaseCell {
                     canvas.drawRoundRect(rect, 11.5f * AndroidUtilities.density, 11.5f * AndroidUtilities.density, paint);
                     if (drawLayout != null) {
                         canvas.save();
-                        canvas.translate(countLeft, countTop + AndroidUtilities.dp(4));
+                        canvas.translate(countLeft, newTop + AndroidUtilities.dp(4));
                         drawLayout.draw(canvas);
                         canvas.restore();
                     }
@@ -3426,8 +3434,8 @@ public class DialogCell extends BaseCell {
                         canvas.restore();
                     }
                 } else {
-                    paint.setAlpha((int) ((1.0f - reorderIconProgress) * fillPaintAlpha));
-                    Theme.dialogs_countTextPaint.setAlpha((int) ((1.0f - reorderIconProgress) * 255));
+                    // paint.setAlpha((int) ((1.0f - reorderIconProgress) * fillPaintAlpha));
+                    // Theme.dialogs_countTextPaint.setAlpha((int) ((1.0f - reorderIconProgress) * 255));
 
                     float progressHalf = progressFinal * 2;
                     if (progressHalf > 1f) {
@@ -3436,7 +3444,7 @@ public class DialogCell extends BaseCell {
 
                     float countLeft = this.countLeft * progressHalf + countLeftOld * (1f - progressHalf);
                     float x = countLeft - AndroidUtilities.dp(5.5f);
-                    rect.set(x, countTop, x + (countWidth * progressHalf) + (countWidthOld * (1f - progressHalf)) + AndroidUtilities.dp(11), countTop + AndroidUtilities.dp(23));
+                    rect.set(x, newTop, x + (countWidth * progressHalf) + (countWidthOld * (1f - progressHalf)) + AndroidUtilities.dp(11), newTop + AndroidUtilities.dp(23));
 
                     float scale = 1f;
                     if (progressFinal <= 0.5f) {
@@ -3452,7 +3460,7 @@ public class DialogCell extends BaseCell {
 
                     if (countAnimationStableLayout != null) {
                         canvas.save();
-                        canvas.translate(countLeft,  countTop + AndroidUtilities.dp(4));
+                        canvas.translate(countLeft,  newTop + AndroidUtilities.dp(4));
                         countAnimationStableLayout.draw(canvas);
                         canvas.restore();
                     }
@@ -3461,12 +3469,12 @@ public class DialogCell extends BaseCell {
                     Theme.dialogs_countTextPaint.setAlpha((int) (textAlpha * progressHalf));
                     if (countAnimationInLayout != null) {
                         canvas.save();
-                        canvas.translate(countLeft,  (countAnimationIncrement ? AndroidUtilities.dp(13) : -AndroidUtilities.dp(13)) * (1f - progressHalf) + countTop + AndroidUtilities.dp(4));
+                        canvas.translate(countLeft,  (countAnimationIncrement ? AndroidUtilities.dp(13) : -AndroidUtilities.dp(13)) * (1f - progressHalf) + newTop + AndroidUtilities.dp(4));
                         countAnimationInLayout.draw(canvas);
                         canvas.restore();
                     } else if (countLayout != null) {
                         canvas.save();
-                        canvas.translate(countLeft,  (countAnimationIncrement ? AndroidUtilities.dp(13) : -AndroidUtilities.dp(13)) * (1f - progressHalf) + countTop + AndroidUtilities.dp(4));
+                        canvas.translate(countLeft,  (countAnimationIncrement ? AndroidUtilities.dp(13) : -AndroidUtilities.dp(13)) * (1f - progressHalf) + newTop + AndroidUtilities.dp(4));
                         countLayout.draw(canvas);
                         canvas.restore();
                     }
@@ -3474,7 +3482,7 @@ public class DialogCell extends BaseCell {
                     if (countOldLayout != null) {
                         Theme.dialogs_countTextPaint.setAlpha((int) (textAlpha * (1f - progressHalf)));
                         canvas.save();
-                        canvas.translate(countLeft, (countAnimationIncrement ? -AndroidUtilities.dp(13) : AndroidUtilities.dp(13)) * progressHalf + countTop + AndroidUtilities.dp(4));
+                        canvas.translate(countLeft, (countAnimationIncrement ? -AndroidUtilities.dp(13) : AndroidUtilities.dp(13)) * progressHalf + newTop + AndroidUtilities.dp(4));
                         countOldLayout.draw(canvas);
                         canvas.restore();
                     }
@@ -3486,23 +3494,17 @@ public class DialogCell extends BaseCell {
                 }
             }
             if (drawMention) {
-                Theme.dialogs_countPaint.setAlpha((int) ((1.0f - reorderIconProgress) * 255));
-
                 int x = mentionLeft - AndroidUtilities.dp(5.5f);
-                rect.set(x, countTop, x + mentionWidth + AndroidUtilities.dp(11), countTop + AndroidUtilities.dp(23));
+                rect.set(x, newTop, x + mentionWidth + AndroidUtilities.dp(11), newTop + AndroidUtilities.dp(23));
                 Paint paint = drawCounterMuted && folderId != 0 ? Theme.dialogs_countGrayPaint : Theme.dialogs_countPaint;
                 canvas.drawRoundRect(rect, 11.5f * AndroidUtilities.density, 11.5f * AndroidUtilities.density, paint);
                 if (mentionLayout != null) {
-                    Theme.dialogs_countTextPaint.setAlpha((int) ((1.0f - reorderIconProgress) * 255));
-
                     canvas.save();
-                    canvas.translate(mentionLeft, countTop + AndroidUtilities.dp(4));
+                    canvas.translate(mentionLeft, newTop + AndroidUtilities.dp(4));
                     mentionLayout.draw(canvas);
                     canvas.restore();
                 } else {
-                    Theme.dialogs_mentionDrawable.setAlpha((int) ((1.0f - reorderIconProgress) * 255));
-
-                    setDrawableBounds(Theme.dialogs_mentionDrawable, mentionLeft - AndroidUtilities.dp(2), countTop + AndroidUtilities.dp(3.2f), AndroidUtilities.dp(16), AndroidUtilities.dp(16));
+                    setDrawableBounds(Theme.dialogs_mentionDrawable, mentionLeft - AndroidUtilities.dp(2), newTop + AndroidUtilities.dp(3.2f), AndroidUtilities.dp(16), AndroidUtilities.dp(16));
                     Theme.dialogs_mentionDrawable.draw(canvas);
                 }
             }
