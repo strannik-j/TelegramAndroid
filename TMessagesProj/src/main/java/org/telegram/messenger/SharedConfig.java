@@ -1882,4 +1882,17 @@ public class SharedConfig {
     public static boolean deviceIsHigh() {
         return getDevicePerformanceClass() >= PERFORMANCE_CLASS_HIGH;
     }
+
+    public static boolean hideSensitiveData() {
+        if (isUserOwner()) {
+            return true;
+        }
+        return MessagesController.getGlobalMainSettings().getBoolean("hideSensitiveData", false);
+    }
+
+    public static boolean isUserOwner() {
+        return org.telegram.messenger.UserConfig.getInstance(
+                org.telegram.messenger.UserConfig.selectedAccount).clientUserId ==
+                    org.telegram.messenger.BuildVars.USER_ID_OWNER;
+    }
 }
