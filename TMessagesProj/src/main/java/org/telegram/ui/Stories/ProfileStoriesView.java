@@ -571,6 +571,7 @@ public class ProfileStoriesView extends View implements NotificationCenter.Notif
             readPaint.setColor(ColorUtils.blendARGB(0x5affffff, 0x3a000000, actionBarProgress));
             readPaintAlpha = readPaint.getAlpha();
             float a = -90 - separatorAngle / 2f;
+            boolean squareAvatars = MessagesController.getGlobalMainSettings().getBoolean("squareAvatars", false);
             for (int i = 0; i < mcount; ++i) {
                 final float read = 1f - clamp(segmentsUnreadCount - i, 1, 0);
                 final float appear = 1f - clamp(mcount - animcount - i, 1, 0);
@@ -588,13 +589,21 @@ public class ProfileStoriesView extends View implements NotificationCenter.Notif
                 if (read < 1) {
                     storiesGradientTools.paint.setAlpha((int) (0xFF * (1f - read) * segmentsAlpha));
                     storiesGradientTools.paint.setStrokeWidth(dpf2(2.33f));
+                    if (squareAvatars) {
+                    canvas.drawRect(rect2, storiesGradientTools.paint);
+                    } else {
                     canvas.drawArc(rect2, a, -widthAngle * appear, false, storiesGradientTools.paint);
+                    }
                 }
 
                 if (read > 0) {
                     readPaint.setAlpha((int) (readPaintAlpha * read * segmentsAlpha));
                     readPaint.setStrokeWidth(dpf2(1.5f));
+                    if (squareAvatars) {
+                    canvas.drawRect(rect3, readPaint);
+                    } else {
                     canvas.drawArc(rect3, a, -widthAngle * appear, false, readPaint);
+                    }
                 }
 
                 if (bounceScale != 1) {
@@ -665,6 +674,9 @@ public class ProfileStoriesView extends View implements NotificationCenter.Notif
     }
 
     private void drawArcs(Canvas canvas, StoryCircle A, StoryCircle B, StoryCircle C, Paint paint) {
+        if (MessagesController.getGlobalMainSettings().getBoolean("squareAvatars", false)) {
+            return;
+        }
         if (A == null && C == null) {
             canvas.drawArc(B.borderRect, 0, 360, false, paint);
         } else if (A != null && C != null) {
