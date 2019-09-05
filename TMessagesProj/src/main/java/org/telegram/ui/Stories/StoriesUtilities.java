@@ -208,7 +208,11 @@ public class StoriesUtilities {
             rectTmp.set(params.originalAvatarRect);
             rectTmp.inset(inset, inset);
 
+            if (MessagesController.getGlobalMainSettings().getBoolean("squareAvatars", false)) {
+                canvas.drawRect(rectTmp.left, rectTmp.top, rectTmp.right, rectTmp.bottom, gradientTools.paint);
+            } else {
             drawCircleInternal(canvas, avatarImage.getParentView(), params, gradientTools.paint);
+            }
         }
         if ((params.prevState == STATE_READ && params.progressToSate != 1f) || params.currentState == STATE_READ) {
             boolean animateOut = params.prevState == STATE_READ && params.progressToSate != 1f;
@@ -321,6 +325,8 @@ public class StoriesUtilities {
                         }
                     }
                 }
+            } else if (MessagesController.getGlobalMainSettings().getBoolean("squareAvatars", false)) {
+                canvas.drawRect(rectTmp.left, rectTmp.top, rectTmp.right, rectTmp.bottom, paint);
             } else {
                 drawCircleInternal(canvas, avatarImage.getParentView(), params, paint);
             }
@@ -457,6 +463,10 @@ public class StoriesUtilities {
     }
 
     private static void drawSegment(Canvas canvas, RectF rectTmp, Paint paint, float startAngle, float endAngle, AvatarStoryParams params) {
+        if (MessagesController.getGlobalMainSettings().getBoolean("squareAvatars", false)) {
+            canvas.drawRect(rectTmp, paint);
+            return;
+        }
         if (!params.isFirst && !params.isLast) {
             if (startAngle < 90) {
                 drawArcExcludeArc(canvas, rectTmp, paint, startAngle, endAngle, -params.progressToArc / 2, params.progressToArc / 2);
