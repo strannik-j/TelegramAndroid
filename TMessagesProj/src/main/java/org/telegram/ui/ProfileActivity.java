@@ -389,6 +389,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     private int userInfoRow;
     private int channelInfoRow;
     private int usernameRow;
+    private int idRow;
     private int notificationsDividerRow;
     private int notificationsRow;
     private int infoSectionRow;
@@ -2498,6 +2499,17 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         frameLayout.addView(listView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT, Gravity.TOP | Gravity.LEFT));
         listView.setOnItemClickListener((view, position, x, y) -> {
             if (getParentActivity() == null) {
+                return;
+            }
+            if (position == idRow && did != 0) {
+                try {
+                    android.content.ClipboardManager clipboard = (android.content.ClipboardManager) ApplicationLoader.applicationContext.getSystemService(Context.CLIPBOARD_SERVICE);
+                    android.content.ClipData clip = android.content.ClipData.newPlainText("label", did + "");
+                    clipboard.setPrimaryClip(clip);
+                    Toast.makeText(getParentActivity(), LocaleController.getString("TextCopied", R.string.TextCopied), Toast.LENGTH_SHORT).show();
+                } catch (Exception e) {
+                    FileLog.e(e);
+                }
                 return;
             }
             if (position == settingsKeyRow) {
@@ -5413,6 +5425,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         locationRow = -1;
         channelInfoRow = -1;
         usernameRow = -1;
+        idRow = -1;
         settingsTimerRow = -1;
         settingsKeyRow = -1;
         notificationsDividerRow = -1;
@@ -5530,6 +5543,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 if (user != null && !TextUtils.isEmpty(user.username)) {
                     usernameRow = rowCount++;
                 }
+                idRow = rowCount++;
                 if (phoneRow != -1 || userInfoRow != -1 || usernameRow != -1) {
                     notificationsDividerRow = rowCount++;
                 }
@@ -5577,6 +5591,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     usernameRow = rowCount++;
                 }
             }
+            idRow = rowCount++;
             if (infoHeaderRow != -1) {
                 notificationsDividerRow = rowCount++;
             }
@@ -6933,6 +6948,15 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                             text = LocaleController.getString("PhoneHidden", R.string.PhoneHidden);
                         }
                         detailCell.setTextAndValue(text, LocaleController.getString("PhoneMobile", R.string.PhoneMobile), false);
+                    } else if (position == idRow) {
+                        final long did = (dialogId != 0)
+                            ? dialogId
+                            : (userId != 0)
+                            ? userId
+                            : chatId;
+                        if (did != 0) {
+                            detailCell.setTextAndValue(did + "", "ID", false);
+                        }
                     } else if (position == usernameRow) {
                         String text;
                         if (userId != 0) {
@@ -7258,7 +7282,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             if (position == infoHeaderRow || position == membersHeaderRow || position == settingsSectionRow2 ||
                     position == numberSectionRow || position == helpHeaderRow || position == debugHeaderRow) {
                 return 1;
-            } else if (position == phoneRow || position == usernameRow || position == locationRow ||
+            } else if (position == idRow || position == phoneRow || position == usernameRow || position == locationRow ||
                     position == numberRow || position == setUsernameRow || position == bioRow) {
                 return 2;
             } else if (position == userInfoRow || position == channelInfoRow) {
