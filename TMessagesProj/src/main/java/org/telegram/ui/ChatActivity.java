@@ -7172,6 +7172,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             if (getParentActivity() == null) {
                 return;
             }
+            if (MessagesController.getGlobalMainSettings().getBoolean("hideBottomButton", false)) {
+                return;
+            }
             if (reportType >= 0) {
                 showDialog(new ReportAlert(getParentActivity(), reportType) {
                     @Override
@@ -16861,6 +16864,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             } else {
                 bottomOverlayChatText.setText(LocaleController.getString("DeleteThisChat", R.string.DeleteThisChat));
             }
+        }
+        if (MessagesController.getGlobalMainSettings().getBoolean("hideBottomButton", false)) {
+            bottomOverlayChatText.setText("");
         }
 
         if (currentChat != null && currentChat.gigagroup && reportType < 0 && chatMode == 0) {
