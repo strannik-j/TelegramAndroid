@@ -130,6 +130,7 @@ import org.telegram.messenger.browser.Browser;
 import org.telegram.messenger.voip.VideoCapturerDevice;
 import org.telegram.messenger.voip.VoIPPendingCall;
 import org.telegram.messenger.voip.VoIPService;
+import org.telegram.messenger.forkgram.AppUpdater;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
@@ -223,6 +224,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
 
     private static final String EXTRA_ACTION_TOKEN = "actions.fulfillment.extra.ACTION_TOKEN";
     public ArrayList<INavigationLayout> sheetFragmentsStack = new ArrayList<>();
+
+    private static boolean clearedCachedInstallers = false;
 
     private boolean finished;
     final private Pattern locationRegex = Pattern.compile("geo: ?(-?\\d+\\.\\d+),(-?\\d+\\.\\d+)(,|\\?z=)(-?\\d+)");
@@ -946,6 +949,11 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         BackupAgent.requestBackup(this);
 
         RestrictedLanguagesSelectActivity.checkRestrictedLanguages(false);
+
+        if (!clearedCachedInstallers) {
+            clearedCachedInstallers = true;
+            AppUpdater.clearCachedInstallers(getBaseContext());
+        }
     }
 
     private void showAttachMenuBot(TLRPC.TL_attachMenuBot attachMenuBot) {
@@ -5186,6 +5194,14 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     }
 
     public void checkAppUpdate(boolean force) {
+        AppUpdater.checkNewVersion(this, getBaseContext(), (builder) -> {
+            showAlertDialog(builder);
+            return 0;
+        }, force);
+    }
+
+    // Never be called.
+    public void checkAppUpdate(boolean force, int dummy) {
         if (!BuildVars.isStandaloneApp()) {
             return;
         }
