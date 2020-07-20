@@ -1173,6 +1173,9 @@ public class DialogCell extends BaseCell {
                             }
                             currentMessagePaint = Theme.dialogs_messagePrintingPaint[paintIndex];
                         } else {
+                            final boolean disableThumbs = MessagesController
+                                .getGlobalMainSettings()
+                                .getBoolean("disableThumbsInDialogList", false);
                             boolean needEmoji = true;
                             if (groupMessages != null && groupMessages.size() > 1 && TextUtils.isEmpty(restrictionReason) && currentDialogFolderId == 0 && encryptedChat == null) {
                                 thumbsCount = 0;
@@ -1190,6 +1193,7 @@ public class DialogCell extends BaseCell {
                                             }
                                             if (smallThumb != null) {
                                                 hasVideoThumb = hasVideoThumb || (message.isVideo() || message.isRoundVideo());
+                                                needEmoji = disableThumbs;
                                                 if (i < 2) {
                                                     thumbsCount++;
                                                     drawPlay[i] = message.isVideo() || message.isRoundVideo();
@@ -1215,6 +1219,7 @@ public class DialogCell extends BaseCell {
                                         }
                                         if (smallThumb != null) {
                                             hasVideoThumb = hasVideoThumb || (message.isVideo() || message.isRoundVideo());
+                                            needEmoji = disableThumbs;
                                             if (thumbsCount < 3) {
                                                 thumbsCount++;
                                                 drawPlay[0] = message.isVideo() || message.isRoundVideo();
@@ -1415,6 +1420,7 @@ public class DialogCell extends BaseCell {
                                         messageString = new SpannableStringBuilder(messageString);
                                     }
                                     checkMessage = false;
+                                    if (!disableThumbs) {
                                     SpannableStringBuilder builder = (SpannableStringBuilder) messageString;
                                     if (thumbInsertIndex >= builder.length()) {
                                         builder.append(" ");
@@ -1422,6 +1428,7 @@ public class DialogCell extends BaseCell {
                                     } else {
                                         builder.insert(thumbInsertIndex, " ");
                                         builder.setSpan(new FixedWidthSpan(AndroidUtilities.dp(thumbsCount * (thumbSize + 2) - 2 + 5)), thumbInsertIndex, thumbInsertIndex + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                    }
                                     }
                                 }
                             } else {
@@ -1540,6 +1547,7 @@ public class DialogCell extends BaseCell {
                                         messageString = new SpannableStringBuilder(messageString);
                                     }
                                     checkMessage = false;
+                                    if (!disableThumbs) {
                                     SpannableStringBuilder builder = (SpannableStringBuilder) messageString;
                                     builder.insert(0, " ");
                                     builder.setSpan(new FixedWidthSpan(AndroidUtilities.dp((thumbSize + 2) * thumbsCount - 2 + 5)), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -1549,6 +1557,7 @@ public class DialogCell extends BaseCell {
                                         if (s != null) {
                                             messageString = s;
                                         }
+                                    }
                                     }
                                 }
                             }
@@ -3469,7 +3478,10 @@ public class DialogCell extends BaseCell {
             avatarImage.draw(canvas);
         }
 
-        if (thumbsCount > 0) {
+        if (thumbsCount > 0
+            && !MessagesController
+                .getGlobalMainSettings()
+                .getBoolean("disableThumbsInDialogList", false)) {
             for (int i = 0; i < thumbsCount; ++i) {
                 thumbImage[i].draw(canvas);
                 if (drawPlay[i]) {
