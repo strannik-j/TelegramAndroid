@@ -5,7 +5,7 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.HandlerThread;
 
-import com.google.android.datatransport.runtime.logging.Logging;
+//import com.google.android.datatransport.runtime.logging.Logging;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
@@ -46,7 +46,7 @@ public class VideoCameraCapturer {
         if (Build.VERSION.SDK_INT < 18) {
             return;
         }
-        Logging.i("VideoCameraCapturer", "device model = " + Build.MANUFACTURER + Build.MODEL);
+//        Logging.i("VideoCameraCapturer", "device model = " + Build.MANUFACTURER + Build.MODEL);
         AndroidUtilities.runOnUIThread(() -> {
             instance = this;
             thread = new HandlerThread("CallThread");
