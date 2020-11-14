@@ -5448,6 +5448,7 @@
     <string name="PremiumPreviewNoAdsDescription2">Remove ads such as this one by subscribing to Telegram Premium.</string>
     <!--FORK CLIENT-->
     <string name="FastForward">Fast Forward</string>
+    <string name="ForwardAsAlbum">Forward As Album</string>
     <string name="DateForward">Date</string>
     <string name="ShowTitle">Show title</string>
     <string name="HideTitle">Hide title</string>
