@@ -5204,6 +5204,7 @@
     <string name="DeleteTonesMessage_other">Do you want to delete **%d notification sounds**?</string>
     <!--FORK CLIENT-->
     <string name="FastForward">Fast Forward</string>
+    <string name="ForwardAsAlbum">Forward As Album</string>
     <string name="DateForward">Date</string>
     <string name="ShowTitle">Show title</string>
     <string name="HideTitle">Hide title</string>
