@@ -104,6 +104,14 @@ import java.util.Locale;
 
 public class ShareAlert extends BottomSheet implements NotificationCenter.NotificationCenterDelegate {
 
+    public class UndoInfo extends Object {
+        public int count = 0;
+        public boolean asAlbum = false;
+        public boolean asCopy = false;
+        public boolean noText = false;
+        public boolean silent = false;
+    }
+
     private int sizeButton = 46;
 
     private FrameLayout frameLayout;
@@ -1343,6 +1351,13 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                 return;
             }
             if (sendingMessageObjects != null) {
+                UndoInfo info = new UndoInfo();
+                info.count = sendingMessageObjects.size();
+                info.silent = !notify;
+                info.asAlbum = groupAnyItems;
+                info.noText = nonText;
+                info.asCopy = !nonText;
+
                 final int account = currentAccount;
                 for (int a = 0; a < selectedDialogs.size(); a++) {
                     long key = selectedDialogs.keyAt(a);
@@ -1377,6 +1392,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                             account,
                             parentFragment,
                             notify);
+                        onSend(selectedDialogs, info);
                         dismiss();
                         return;
                     }
@@ -1388,7 +1404,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                         parentFragment,
                         notify);
                 }
-                onSend(selectedDialogs, sendingMessageObjects.size());
+                onSend(selectedDialogs, info);
             } else {
                 withSendingText.run();
             }
@@ -1598,6 +1614,10 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
     }
 
     protected void onSend(LongSparseArray<TLRPC.Dialog> dids, int count) {
+
+    }
+
+    protected void onSend(LongSparseArray<TLRPC.Dialog> dids, UndoInfo info) {
 
     }
 
