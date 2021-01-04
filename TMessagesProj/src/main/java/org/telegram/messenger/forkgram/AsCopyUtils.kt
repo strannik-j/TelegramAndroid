@@ -79,7 +79,8 @@ fun PerformForwardFromMyName(
         text: String?,
         sendingMessageObjects: ArrayList<MessageObject>,
         currentAccount: Int,
-        parentFragment: BaseFragment?) {
+        parentFragment: BaseFragment?,
+        notify: Boolean) {
 
     val queue = ArrayList<() -> Unit>();
     val saveOriginalCaptions = (text == null)
@@ -110,6 +111,7 @@ fun PerformForwardFromMyName(
                 key,
                 parentFragment,
                 copyText,
+                notify,
                 deque)
         }
     }
@@ -131,7 +133,7 @@ fun PerformForwardFromMyName(
         val copyText = currentReplaceText();
         queue.add {
             val instance = SendMessagesHelper.getInstance(currentAccount);
-            instance.processForwardFromMyName(copyMsg, key, copyText)
+            instance.processForwardFromMyName(copyMsg, key, copyText, notify)
             deque();
         }
     }
@@ -147,7 +149,8 @@ fun GroupItemsIntoAlbum(
         text: String?,
         sendingMessageObjects: ArrayList<MessageObject>,
         currentAccount: Int,
-        parentFragment: BaseFragment?) {
+        parentFragment: BaseFragment?,
+        notify: Boolean) {
     if (sendingMessageObjects.isEmpty()) {
         return;
     }
@@ -160,7 +163,7 @@ fun GroupItemsIntoAlbum(
     val objectsToDelay = sub(objectsToSend.size, sendingMessageObjects.size);
 
     val finish = {
-        GroupItemsIntoAlbum(key, text, objectsToDelay, currentAccount, parentFragment)
+        GroupItemsIntoAlbum(key, text, objectsToDelay, currentAccount, parentFragment, notify)
     };
 
     SendItemsAsAlbum(
@@ -169,6 +172,7 @@ fun GroupItemsIntoAlbum(
             key,
             parentFragment,
             text,
+            notify,
             finish)
 }
 
@@ -214,6 +218,7 @@ fun SendItemsAsAlbum(
         peer: Long,
         fragment: BaseFragment?,
         replaceText: String?,
+        notify: Boolean,
         finish: () -> Unit) {
     if (peer == 0L || messages.size > 10 || messages.isEmpty()) {
         return
@@ -226,7 +231,7 @@ fun SendItemsAsAlbum(
             ?: return
     val request = TL_messages_sendMultiMedia()
     request.peer = sendToPeer
-    request.silent = false
+    request.silent = !notify
     for (i in 0 until messages.size) {
         val m = messages[i]
         val media: InputMedia = inputMediaFromMessageObject(m)
@@ -304,7 +309,7 @@ fun SendItemsAsAlbum(
                 showToast("Sorry, something went wrong.");
                 return@handleMessages
             }
-            SendItemsAsAlbum(currentAccount, messages, peer, fragment, replaceText, finish)
+            SendItemsAsAlbum(currentAccount, messages, peer, fragment, replaceText, notify, finish)
         }
 
         GetTLRPCMessages(currentAccount, messages, handleMessages);
