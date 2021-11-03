@@ -15,7 +15,7 @@ function build_one {
 	rm -rf ${TOOLCHAIN_PREFIX}
 	
 	echo "Toolchain..."
-	python $NDK/build/tools/make_standalone_toolchain.py \
+	python3 $NDK/build/tools/make_standalone_toolchain.py \
 	--arch ${ARCH} \
 	--api ${ANDROID_API} \
 	--stl libc++ \
