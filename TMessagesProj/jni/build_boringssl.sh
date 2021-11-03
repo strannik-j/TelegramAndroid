@@ -39,6 +39,7 @@ checkPreRequisites
 
 cd boringssl
 
+rm -rf build
 mkdir build
 cd build
 
