@@ -72,6 +72,12 @@ android {
         coreLibraryDesugaringEnabled true
     }
 
+    def fdroid = false
+    def appSuffix = ".beta"
+    if (fdroid) {
+        appSuffix = "";
+    }
+
     signingConfigs {
         def github = System.getenv("GITHUB_REPOSITORY")
         if (github != null && github != "") {
@@ -87,6 +93,20 @@ android {
                 storePassword System.getenv("KEYSTORE_PASS")
                 keyAlias System.getenv("ALIAS_NAME")
                 keyPassword System.getenv("ALIAS_PASS")
+            }
+        } else if (fdroid) {
+            debug {
+                storeFile file("")
+                storePassword ""
+                keyAlias ""
+                keyPassword ""
+            }
+
+            release {
+                storeFile file("")
+                storePassword ""
+                keyAlias ""
+                keyPassword ""
             }
         } else {
             debug {
@@ -110,7 +130,7 @@ android {
             debuggable true
             jniDebuggable true
             signingConfig signingConfigs.debug
-            applicationIdSuffix ".beta"
+            applicationIdSuffix appSuffix
             minifyEnabled false
             shrinkResources false
             multiDexEnabled true
@@ -122,7 +142,7 @@ android {
             debuggable true
             jniDebuggable true
             signingConfig signingConfigs.debug
-            applicationIdSuffix ".beta"
+            applicationIdSuffix appSuffix
             minifyEnabled true
             multiDexEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -151,7 +171,7 @@ android {
             debuggable false
             jniDebuggable false
             signingConfig signingConfigs.debug
-            applicationIdSuffix ".beta"
+            applicationIdSuffix appSuffix
             minifyEnabled true
             multiDexEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -173,7 +193,7 @@ android {
             debuggable false
             jniDebuggable false
             signingConfig signingConfigs.release
-            applicationIdSuffix ".beta"
+            applicationIdSuffix appSuffix
             minifyEnabled true
             shrinkResources false
             multiDexEnabled true
@@ -320,7 +340,9 @@ android {
 
     applicationVariants.all { variant ->
         variant.outputs.all { output ->
-            outputFileName = "app.apk"
+            if (!fdroid) {
+                outputFileName = "app.apk"
+            }
             output.versionCodeOverride = defaultConfig.versionCode * 10 + variant.productFlavors.get(0).abiVersionCode
         }
     }
@@ -342,9 +364,15 @@ android {
         //obtain your own keys at https://core.telegram.org/api/obtaining_api_id
         buildConfigField 'int', 'APP_ID', System.getenv("APP_ID")
         buildConfigField 'String', 'APP_HASH', getStringForConfig(System.getenv("APP_HASH"))
-        buildConfigField 'int', 'USER_ID_OWNER', System.getenv("USER_ID_OWNER")
-        buildConfigField 'String', 'USER_REPO', getStringForConfig(System.getenv("USER_REPO"))
-        buildConfigField 'int', 'CHECK_UPDATES', System.getenv("CHECK_UPDATES")
+        if (fdroid) {
+            buildConfigField 'int', 'USER_ID_OWNER', "0"
+            buildConfigField 'String', 'USER_REPO', getStringForConfig("")
+            buildConfigField 'int', 'CHECK_UPDATES', "0"
+        } else {
+            buildConfigField 'int', 'USER_ID_OWNER', System.getenv("USER_ID_OWNER")
+            buildConfigField 'String', 'USER_REPO', getStringForConfig(System.getenv("USER_REPO"))
+            buildConfigField 'int', 'CHECK_UPDATES', System.getenv("CHECK_UPDATES")
+        }
 
         vectorDrawables.generatedDensities = ['mdpi', 'hdpi', 'xhdpi', 'xxhdpi']
 
