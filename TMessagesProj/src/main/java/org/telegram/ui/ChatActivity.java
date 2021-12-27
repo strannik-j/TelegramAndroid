@@ -7458,6 +7458,9 @@ ChatActivity extends BaseFragment implements NotificationCenter.NotificationCent
 
             @Override
             public TLRPC.TL_channels_sendAsPeers getSendAsPeers() {
+                if (MessagesController.getGlobalMainSettings().getBoolean("hideSendAs", false)) {
+                    return null;
+                }
                 return sendAsPeersObj;
             }
 
