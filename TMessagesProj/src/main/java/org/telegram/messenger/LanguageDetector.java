@@ -13,18 +13,6 @@ public class LanguageDetector {
     }
 
     public static void detectLanguage(String text, StringCallback onSuccess, ExceptionCallback onFail) {
-        try {
-            com.google.mlkit.nl.languageid.LanguageIdentification.getClient()
-                    .identifyLanguage(text)
-                    .addOnSuccessListener(str -> {
-                        onSuccess.run(str);
-                    })
-                    .addOnFailureListener(e -> {
-                        onFail.run(e);
-                    });
-        } catch (Exception e) {
-            FileLog.e(e);
-            onFail.run(e);
-        }
+        onSuccess.run("Auto");
     }
 }
