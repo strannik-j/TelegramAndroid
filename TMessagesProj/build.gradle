@@ -104,6 +104,8 @@ android {
         buildConfigField 'int', 'ADDITIONAL_BUILD_NUMBER', ADDITIONAL_BUILD_NUMBER
         buildConfigField 'String', 'VERSION_NAME', getStringForConfig(versionName)
 
+        buildConfigField 'boolean', 'SKIP_DNS_RESOLVER', ((F_DROID == 1) ? 'true' : 'false')
+
         externalNativeBuild {
             cmake {
                 version '3.10.2'
