@@ -128,9 +128,6 @@ import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.analytics.AnalyticsListener;
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
-import com.google.android.gms.vision.Frame;
-import com.google.android.gms.vision.face.Face;
-import com.google.android.gms.vision.face.FaceDetector;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
@@ -9100,6 +9097,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             return;
         }
         Utilities.globalQueue.postRunnable(() -> {
+        	/*
             FaceDetector faceDetector = null;
             try {
                 faceDetector = new FaceDetector.Builder(ApplicationLoader.applicationContext)
@@ -9120,7 +9118,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 } else {
                     if (BuildVars.LOGS_ENABLED) {
                         FileLog.e("face detection is not operational");
-                    }
+                    }*/
                     AndroidUtilities.runOnUIThread(() -> {
                         bitmap.release();
                         String imageKey = centerImage.getImageKey();
@@ -9128,7 +9126,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                             currentImageHasFace = 2;
                             currentImageFaceKey = key;
                         }
-                    });
+                    });/*
                 }
             } catch (Exception e) {
                 FileLog.e(e);
@@ -9136,7 +9134,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 if (faceDetector != null) {
                     faceDetector.release();
                 }
-            }
+            }*/
         });
     }
 
