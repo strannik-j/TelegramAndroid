@@ -46,22 +46,10 @@ public class BuildVars {
     }
 
     public static boolean useInvoiceBilling() {
-        return DEBUG_VERSION || isStandaloneApp() || isBetaApp() || isHuaweiStoreApp() || hasDirectCurrency();
+        return true;
     }
 
     private static boolean hasDirectCurrency() {
-        if (!BillingController.getInstance().isReady() || BillingController.PREMIUM_PRODUCT_DETAILS == null) {
-            return false;
-        }
-        for (ProductDetails.SubscriptionOfferDetails offerDetails : BillingController.PREMIUM_PRODUCT_DETAILS.getSubscriptionOfferDetails()) {
-            for (ProductDetails.PricingPhase phase : offerDetails.getPricingPhases().getPricingPhaseList()) {
-                for (String cur : MessagesController.getInstance(UserConfig.selectedAccount).directPaymentsCurrency) {
-                    if (Objects.equals(phase.getPriceCurrencyCode(), cur)) {
-                        return true;
-                    }
-                }
-            }
-        }
         return false;
     }
 
