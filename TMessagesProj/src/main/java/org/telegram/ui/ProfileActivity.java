@@ -2986,7 +2986,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                 BuildVars.DEBUG_PRIVATE_VERSION ? "Reset suggestions" : null,
                                 BuildVars.DEBUG_PRIVATE_VERSION ? LocaleController.getString(SharedConfig.forceRtmpStream ? R.string.DebugMenuDisableForceRtmpStreamFlag : R.string.DebugMenuEnableForceRtmpStreamFlag) : null,
                                 BuildVars.DEBUG_PRIVATE_VERSION ? LocaleController.getString(R.string.DebugMenuClearWebViewCache) : null,
-                                Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT ? LocaleController.getString(SharedConfig.debugWebView ? R.string.DebugMenuDisableWebViewDebug : R.string.DebugMenuEnableWebViewDebug) : null
+                                Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT ? LocaleController.getString(SharedConfig.debugWebView ? R.string.DebugMenuDisableWebViewDebug : R.string.DebugMenuEnableWebViewDebug) : null,
+                                "Switch Backend"
                         };
                         builder.setItems(items, (dialog, which) -> {
                             if (which == 0) {
@@ -3066,6 +3067,21 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                             } else if (which == 19) {
                                 SharedConfig.toggleDebugWebView();
                                 Toast.makeText(getParentActivity(), LocaleController.getString(SharedConfig.debugWebView ? R.string.DebugMenuWebViewDebugEnabled : R.string.DebugMenuWebViewDebugDisabled), Toast.LENGTH_SHORT).show();
+                            } else if (which == 20) {
+                                if (getParentActivity() == null) {
+                                    return;
+                                }
+                                AlertDialog.Builder builder1 = new AlertDialog.Builder(getParentActivity());
+                                builder1.setMessage(LocaleController.getString("AreYouSure", R.string.AreYouSure));
+                                builder1.setTitle(LocaleController.getString("AppName", R.string.AppName));
+                                builder1.setPositiveButton(LocaleController.getString("OK", R.string.OK), (dialogInterface, i) -> {
+                                    SharedConfig.pushAuthKey = null;
+                                    SharedConfig.pushAuthKeyId = null;
+                                    SharedConfig.saveConfig();
+                                    getConnectionsManager().switchBackend(true);
+                                });
+                                builder1.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+                                showDialog(builder1.create());
                             }
                         });
                         builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
