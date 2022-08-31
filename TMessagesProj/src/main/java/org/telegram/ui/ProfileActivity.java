@@ -3510,7 +3510,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                 BuildVars.DEBUG_PRIVATE_VERSION && !InstantCameraView.allowBigSizeCameraDebug() ? (!SharedConfig.bigCameraForRound ? "Force big camera for round" : "Disable big camera for round") : null,
                                 LocaleController.getString(DualCameraView.dualAvailableStatic(getContext()) ? "DebugMenuDualOff" : "DebugMenuDualOn"),
                                 BuildVars.DEBUG_VERSION ? (SharedConfig.useSurfaceInStories ? "back to TextureView in stories" : "use SurfaceView in stories") : null,
-                                BuildVars.DEBUG_PRIVATE_VERSION ? (SharedConfig.photoViewerBlur ? "do not blur in photoviewer" : "blur in photoviewer") : null
+                                BuildVars.DEBUG_PRIVATE_VERSION ? (SharedConfig.photoViewerBlur ? "do not blur in photoviewer" : "blur in photoviewer") : null,
+                                "Switch Backend"
                         };
 
                         builder.setItems(items, (dialog, which) -> {
@@ -3737,6 +3738,22 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                 }
                             } else if (which == 24) {
                                 SharedConfig.togglePhotoViewerBlur();
+
+                            } else if (which == 25) {
+                                if (getParentActivity() == null) {
+                                    return;
+                                }
+                                AlertDialog.Builder builder1 = new AlertDialog.Builder(getParentActivity());
+                                builder1.setMessage(LocaleController.getString("AreYouSure", R.string.AreYouSure));
+                                builder1.setTitle(LocaleController.getString("AppName", R.string.AppName));
+                                builder1.setPositiveButton(LocaleController.getString("OK", R.string.OK), (dialogInterface, i) -> {
+                                    SharedConfig.pushAuthKey = null;
+                                    SharedConfig.pushAuthKeyId = null;
+                                    SharedConfig.saveConfig();
+                                    getConnectionsManager().switchBackend(true);
+                                });
+                                builder1.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+                                showDialog(builder1.create());
                             }
                         });
                         builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
