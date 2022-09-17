@@ -4919,7 +4919,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
 
         int[] emojiOnly = new int[1];
         Emoji.parseEmojis(text, emojiOnly);
-        boolean hasOnlyEmoji = emojiOnly[0] <= 100;
+        boolean hasOnlyEmoji = emojiOnly[0] > 100;
         if (!hasOnlyEmoji) {
             text = AndroidUtilities.getTrimmedString(text);
         }
