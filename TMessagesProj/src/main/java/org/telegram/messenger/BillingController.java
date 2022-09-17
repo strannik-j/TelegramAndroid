@@ -54,7 +54,7 @@ public class BillingController implements PurchasesUpdatedListener, BillingClien
 
     public static boolean billingClientEmpty;
 
-    private Map<String, Consumer<BillingResult>> resultListeners = new HashMap<>();
+    // private Map<String, Consumer<BillingResult>> resultListeners = new HashMap<>();
     private List<String> requestingTokens = new ArrayList<>();
     private String lastPremiumTransaction;
     private String lastPremiumToken;
