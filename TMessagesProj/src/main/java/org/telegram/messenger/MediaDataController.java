@@ -44,7 +44,7 @@ import androidx.core.content.pm.ShortcutInfoCompat;
 import androidx.core.content.pm.ShortcutManagerCompat;
 import androidx.core.graphics.drawable.IconCompat;
 
-import com.android.billingclient.api.ProductDetails;
+// import com.android.billingclient.api.ProductDetails;
 
 import org.telegram.SQLite.SQLiteCursor;
 import org.telegram.SQLite.SQLiteDatabase;
@@ -396,7 +396,7 @@ public class MediaDataController extends BaseController {
     }
 
     public Integer getPremiumHintAnnualDiscount(boolean checkTransaction) {
-        if (checkTransaction && (!BillingController.getInstance().isReady() || BillingController.getInstance().getLastPremiumTransaction() == null) || premiumPromo == null) {
+        if (/*checkTransaction && (!BillingController.getInstance().isReady() || BillingController.getInstance().getLastPremiumTransaction() == null) || */premiumPromo == null) {
             return null;
         }
 
@@ -407,7 +407,7 @@ public class MediaDataController extends BaseController {
             if (checkTransaction ? option.current && Objects.equals(option.transaction.replaceAll(PremiumPreviewFragment.TRANSACTION_PATTERN, "$1"), BillingController.getInstance().getLastPremiumTransaction()) : option.months == 1) {
                 found = true;
 
-                if (!BuildVars.useInvoiceBilling() && BillingController.PREMIUM_PRODUCT_DETAILS != null) {
+                /*if (!BuildVars.useInvoiceBilling() && BillingController.PREMIUM_PRODUCT_DETAILS != null) {
                     ProductDetails.SubscriptionOfferDetails offerDetails = null;
                     for (ProductDetails.SubscriptionOfferDetails details : BillingController.PREMIUM_PRODUCT_DETAILS.getSubscriptionOfferDetails()) {
                         String period = details.getPricingPhases().getPricingPhaseList().get(0).getBillingPeriod();
@@ -422,7 +422,7 @@ public class MediaDataController extends BaseController {
                     } else {
                         currentPrice = (double) offerDetails.getPricingPhases().getPricingPhaseList().get(0).getPriceAmountMicros() / option.months;
                     }
-                } else {
+                } else */{
                     currentPrice = (double) option.amount / option.months;
                 }
             }
@@ -430,7 +430,7 @@ public class MediaDataController extends BaseController {
         for (TLRPC.TL_premiumSubscriptionOption option : premiumPromo.period_options) {
             if (found && option.months == 12) {
                 double amount;
-                if (!BuildVars.useInvoiceBilling() && BillingController.PREMIUM_PRODUCT_DETAILS != null) {
+                /*if (!BuildVars.useInvoiceBilling() && BillingController.PREMIUM_PRODUCT_DETAILS != null) {
                     ProductDetails.SubscriptionOfferDetails offerDetails = null;
                     for (ProductDetails.SubscriptionOfferDetails details : BillingController.PREMIUM_PRODUCT_DETAILS.getSubscriptionOfferDetails()) {
                         String period = details.getPricingPhases().getPricingPhaseList().get(0).getBillingPeriod();
@@ -445,7 +445,7 @@ public class MediaDataController extends BaseController {
                     } else {
                         amount = (double) offerDetails.getPricingPhases().getPricingPhaseList().get(0).getPriceAmountMicros() / option.months;
                     }
-                } else {
+                } else */{
                     amount = (double) option.amount / option.months;
                 }
 
