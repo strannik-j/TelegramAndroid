@@ -59,6 +59,8 @@ public class BuildVars {
     public static String USER_REPO = BuildConfig.USER_REPO;
 
     public static boolean useInvoiceBilling() {
+        return true;
+        /*
         return BillingController.billingClientEmpty || DEBUG_VERSION || isStandaloneApp() || isBetaApp() || isHuaweiStoreApp() || hasDirectCurrency();
     }
 
@@ -76,6 +78,7 @@ public class BuildVars {
             }
         }
         return false;
+        */
     }
 
     private static Boolean standaloneApp;
