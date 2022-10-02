@@ -5,8 +5,8 @@ import android.util.Base64;
 
 import androidx.core.util.Pair;
 
-import com.android.billingclient.api.AccountIdentifiers;
-import com.android.billingclient.api.Purchase;
+//import com.android.billingclient.api.AccountIdentifiers;
+//import com.android.billingclient.api.Purchase;
 import com.google.android.exoplayer2.util.Util;
 import com.google.common.base.Charsets;
 
@@ -25,7 +25,7 @@ import java.util.Map;
 public class BillingUtilities {
     private static final String CURRENCY_FILE = "currencies.json";
     private static final String CURRENCY_EXP = "exp";
-
+/*
     @SuppressWarnings("ConstantConditions")
     public static void extractCurrencyExp(Map<String, Integer> currencyExpMap) {
         if (!currencyExpMap.isEmpty()) {
@@ -105,4 +105,5 @@ public class BillingUtilities {
             return null;
         }
     }
+*/
 }
