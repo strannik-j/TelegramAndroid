@@ -447,7 +447,10 @@ public class EmojiTabsStrip extends ScrollableHorizontalScrollView {
             if (emojipackTab.getParent() instanceof ViewGroup) {
                 ((ViewGroup) emojipackTab.getParent()).removeView(emojipackTab);
             }
-            contentView.addView(emojipackTab);
+            if (!emojipackTab.lastLock
+                || !org.telegram.messenger.MessagesController.getGlobalMainSettings().getBoolean("disableLockedAnimatedEmoji", false)) {
+                contentView.addView(emojipackTab);
+            }
         }
         if (settingsTab != null) {
             settingsTab.bringToFront();
@@ -633,6 +636,7 @@ public class EmojiTabsStrip extends ScrollableHorizontalScrollView {
     public class EmojiTabButton extends ViewGroup {
         public boolean shown = true;
 
+        public Boolean lastLock;
         public Integer id;
         public boolean newly;
         private boolean isAnimatedEmoji;
@@ -771,6 +775,7 @@ public class EmojiTabsStrip extends ScrollableHorizontalScrollView {
         }
 
         public void setLock(Boolean lock) {
+            lastLock = lock;
             if (lockView == null) {
                 return;
             }
