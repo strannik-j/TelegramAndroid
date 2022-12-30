@@ -868,7 +868,7 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
                         FileLog.e(e);
                     } finally {
                         if (mediaMetadataRetriever != null) {
-                            mediaMetadataRetriever.release();
+                            //mediaMetadataRetriever.release();
                         }
                     }
                     String finalTitle = title;
