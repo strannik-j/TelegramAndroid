@@ -77,7 +77,27 @@ jobs:
           grep VERSION_NAME TMessagesProj/build/generated/source/buildConfig/${{ matrix.type }}/org/telegram/messenger/BuildConfig.java | cut -d'"' -f 2 > ver.txt
 
           mkdir artifact
-          mv TMessagesProj_AppFork/build/outputs/apk/afat/${{ matrix.type }}/app.apk "artifact/ForkClient $(cat ver.txt)${{ matrix.name }}.apk"
+          mv TMessagesProj_AppFork/build/outputs/apk/afat/${{ matrix.type }}/app.apk app.apk
+          cp app.apk "artifact/ForkClient $(cat ver.txt)${{ matrix.name }}.apk"
+          mkdir tag_asset
+          cp app.apk "tag_asset/ForkClient_$(cat ver.txt)${{ matrix.name }}.apk"
+
+          echo "NEW_TAG_TEXT=$(cat ver.txt)" >> $GITHUB_ENV
+
+          tempVer=$(cat ver.txt)
+          tempVer=${tempVer::-2}
+          echo "NEW_OFFICIAL_TAG_TEXT=$tempVer" >> $GITHUB_ENV
+      - name: Draft release.
+        uses: softprops/action-gh-release@v0.1.15
+        if: ${{ matrix.type == 'debug' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
+        with:
+          draft: true
+          files: tag_asset/*
+          tag_name: ${{ env.NEW_TAG_TEXT }}
+          name: "ForkClient ${{ env.NEW_TAG_TEXT }}"
+          body: "— Updated to ${{ env.NEW_OFFICIAL_TAG_TEXT }} build of the official Telegram."
       - uses: actions/upload-artifact@master
         name: Upload artifact.
         with:
