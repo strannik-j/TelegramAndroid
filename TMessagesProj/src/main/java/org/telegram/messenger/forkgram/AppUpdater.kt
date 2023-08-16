@@ -77,7 +77,11 @@ object AppUpdater {
             val root = JSONObject(it)
             val tag = root.getString("tag_name")
 
-            if (tag <= currentVersion) {
+            val newTen = tag.startsWith("10.");
+            val currentNine = currentVersion.startsWith("9.");
+            val isUpgrade = newTen && currentNine;
+
+            if (tag <= currentVersion && !isUpgrade) {
                 if (manual) {
                     Toast.makeText(context,"No updates", Toast.LENGTH_SHORT).show()
                 }
